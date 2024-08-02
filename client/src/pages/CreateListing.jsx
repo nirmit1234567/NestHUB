@@ -503,7 +503,7 @@ const CreateListing = () => {
               <span>₹</span>
               <input
                 type="number"
-                placeholder="100"
+                placeholder="0"
                 name="price"
                 value={formDescription.price}
                 onChange={handleChangeDescription}
