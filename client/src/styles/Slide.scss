@@ -1,10 +1,8 @@
 .slide {
-  width: 98vw;
+  width: 100vw;
   height: 80vh;
-  // background: linear-gradient(rgba(84, 71, 71, 0.5), rgba(0, 0, 0, 0.5)),
-  //   url("../../public/assets/Slide_1.jpg");
-  
-  background:  url("../../public/assets/Slide_1.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../public/assets/slide.jpg");
   background-position: center top;
   background-size: cover;
 
@@ -16,4 +14,3 @@
   }
 }
 
-  

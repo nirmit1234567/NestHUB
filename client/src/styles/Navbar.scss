@@ -101,16 +101,15 @@
       }
 
       a {
-        width: 90%;
-        padding: 8px 10px;
+        width: 100%;
+        padding: 8px 15px;
         text-decoration: none;
         color: $blue;
         font-weight: 700;
-        display: flex;
 
         &:hover {
           color: $pinkred;
-          background-color: rgba(47, 44, 44, 0.2);
+          background-color: rgba(217, 213, 213, 0.2);
         }
       }
     }

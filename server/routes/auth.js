@@ -3,46 +3,47 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 
-const User = require("../models/User.js");
+const User = require("../models/User");
 
-//configuration multer for file upload
+/* Configuration Multer for File Upload */
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/uploads"); // store the uploaded file in the  upload folder
+    cb(null, "public/uploads/"); // Store uploaded files in the 'uploads' folder
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname); // use the original file name
+    cb(null, file.originalname); // Use the original file name
   },
 });
 
 const upload = multer({ storage });
 
-//user register
+/* USER REGISTER */
 router.post("/register", upload.single("profileImage"), async (req, res) => {
   try {
-    //take all information of the form
+    /* Take all information from the form */
     const { firstName, lastName, email, password } = req.body;
 
-    //upload file will be available as req.file
+    /* The uploaded file is available as req.file */
     const profileImage = req.file;
+
     if (!profileImage) {
       return res.status(400).send("No file uploaded");
     }
 
-    //path to the uploaded profile photo
+    /* path to the uploaded profile photo */
     const profileImagePath = profileImage.path;
 
-    //create if user exists
+    /* Check if user exists */
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ message: "user already exist" });
+      return res.status(409).json({ message: "User already exists!" });
     }
 
-    //hass the password
+    /* Hass the password */
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    //create new user
+    /* Create a new User */
     const newUser = new User({
       firstName,
       lastName,
@@ -51,42 +52,49 @@ router.post("/register", upload.single("profileImage"), async (req, res) => {
       profileImagePath,
     });
 
-    //save the new user
+    /* Save the new User */
     await newUser.save();
 
-    //send a successful message
-    res.status(200).json({ message: "user registered successfully" });
+    /* Send a successful message */
+    res
+      .status(200)
+      .json({ message: "User registered successfully!", user: newUser });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Registration failed!" });
+    res
+      .status(500)
+      .json({ message: "Registration failed!", error: err.message });
   }
 });
 
-//user login
+/* USER LOGIN*/
 router.post("/login", async (req, res) => {
   try {
-    //take all information of the form
-    const { email, password } = req.body;
+    /* Take the infomation from the form */
+    const { email, password } = req.body
 
-    //check if user exists
+    /* Check if user exists */
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(409).json({ message: "user doesn't exist" });
+      return res.status(409).json({ message: "User doesn't exist!" });
     }
-    //compare the password
-    const isMatch = await bcrypt.compare(password, user.password);
+
+    /* Compare the password with the hashed password */
+    const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
-      return res.status(409).json({ message: "Invalid Credentials!" });
+      return res.status(400).json({ message: "Invalid Credentials!"})
     }
 
-    //generate jwt token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    delete user.password;
+    /* Generate JWT token */
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
+    delete user.password
 
-    res.status(200).json({ token, user });
+    res.status(200).json({ token, user })
+
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err.message });
+    console.log(err)
+    res.status(500).json({ error: err.message })
   }
-});
-module.exports = router;
+})
+
+module.exports = router

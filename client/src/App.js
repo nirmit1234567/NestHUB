@@ -18,7 +18,7 @@ function App() {
         <Route path="/create-listing" element={<CreateListing/>}/>
         <Route path="/properties/:listingId" element={<ListingDetails/>}/>
       </Routes>
-      </BrowserRouter>
+      </BrowserRouter> 
     </div>
   );
 }
