@@ -1,24 +1,98 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-//import './App.css';
-import HomePage from './pages/HomePage';
-import RegisterPage from './pages/RegisterPage';
-import LoginPage from './pages/LoginPage';
-import CreateListing from './pages/CreateListing';
-import ListingDetails from './pages/ListingDetails';
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import "./App.css";
+// import HomePage from "./pages/HomePage";
+// import RegisterPage from "./pages/RegisterPage";
+// import LoginPage from "./pages/LoginPage";
+// import CreateListing from "./pages/CreateListing";
+// import ListingDetails from "./pages/ListingDetails";
+// import TripList from "./pages/TripList";
+// import WishList from "./pages/WishList";
+// import PropertyList from "./pages/PropertyList";
+// import ReservationList from "./pages/ReservationList";
+// import CategoryPage from "./pages/CategoryPage";
+// import SearchPage from "./pages/SearchPage";
 
+// function App() {
+//   return (
+//     <div>
+//       <BrowserRouter>
+//         <Routes>
+//           <Route path="/" element={<HomePage />} />
+//           <Route path="/register" element={<RegisterPage />} />
+//           <Route path="/login" element={<LoginPage />} />
+//           <Route path="/create-listing" element={<CreateListing />} />
+//           <Route path="/properties/:listingId" element={<ListingDetails />} />
+//           <Route path="/properties/category/:category" element={<CategoryPage />} />
+//           <Route path="/properties/search/:search" element={<SearchPage />} />
+//           <Route path="/:userId/trips" element={<TripList />} />
+//           <Route path="/:userId/wishList" element={<WishList />} />
+//           <Route path="/:userId/properties" element={<PropertyList />} />
+//           <Route path="/:userId/reservations" element={<ReservationList />} />
+//         </Routes>
+//       </BrowserRouter>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+
+
+
+
+
+
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import HomePage from "./pages/HomePage";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import CreateListing from "./pages/CreateListing";
+import ListingDetails from "./pages/ListingDetails";
+import TripList from "./pages/TripList";
+import WishList from "./pages/WishList";
+import PropertyList from "./pages/PropertyList";
+import ReservationList from "./pages/ReservationList";
+import CategoryPage from "./pages/CategoryPage";
+import SearchPage from "./pages/SearchPage";
+import UserProfile from './components/UserProfile';
+
+
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+// Load your Stripe publishable key
+const stripePromise = loadStripe('pk_test_51PpuIsRrQ90ghplHgkU9NDNegcuoZMnBAVBmUKYfpY4BccevMtdOiUAjaHfxLIqhqu9Y43xLrKWTqS9epgxPq2np00GyNXRLGm');
 
 function App() {
   return (
     <div>
       <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage/>}/>
-        <Route path="/register" element={<RegisterPage/>}/>
-        <Route path="/login" element={<LoginPage/>}/>
-        <Route path="/create-listing" element={<CreateListing/>}/>
-        <Route path="/properties/:listingId" element={<ListingDetails/>}/>
-      </Routes>
-      </BrowserRouter> 
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/create-listing" element={<CreateListing />} />
+          {/* Wrap the route that requires Stripe with the Elements provider */}
+          <Route
+            path="/properties/:listingId"
+            element={
+              <Elements stripe={stripePromise}>
+                <ListingDetails />
+              </Elements>
+            }
+          />
+          <Route path="/properties/category/:category" element={<CategoryPage />} />
+          <Route path="/properties/search/:search" element={<SearchPage />} />
+          <Route path="/:userId/trips" element={<TripList />} />
+          <Route path="/:userId/wishList" element={<WishList />} />
+          <Route path="/:userId/properties" element={<PropertyList />} />
+          <Route path="/:userId/reservations" element={<ReservationList />} />
+          <Route path="/:userId/profile" element={<UserProfile />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

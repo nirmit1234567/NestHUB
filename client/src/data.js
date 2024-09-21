@@ -49,7 +49,7 @@ export const categories = [
     label: "All",
     icon: <BiWorld />,
   },
-  { 
+  {
     img: "assets/beach_cat.jpg",
     label: "Beachfront",
     icon: <TbBeach />,

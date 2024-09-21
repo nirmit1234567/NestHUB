@@ -24,7 +24,6 @@ const CreateListing = () => {
     province: "",
     country: "",
   });
-  
 
   const handleChangeLocation = (e) => {
     const { name, value } = e.target;
@@ -503,7 +502,7 @@ const CreateListing = () => {
               <span>₹</span>
               <input
                 type="number"
-                placeholder="0"
+                placeholder="100"
                 name="price"
                 value={formDescription.price}
                 onChange={handleChangeDescription}

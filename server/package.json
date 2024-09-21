@@ -9,7 +9,8 @@
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.1",
     "multer": "^1.4.4",
-    "multer-gridfs-storage": "^5.0.2"
+    "multer-gridfs-storage": "^5.0.2",
+    "stripe": "^16.8.0"
   },
   "name": "server",
   "version": "1.0.0",
@@ -20,6 +21,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
   "description": ""
 }

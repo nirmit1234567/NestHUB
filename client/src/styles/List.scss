@@ -1,6 +1,32 @@
+// @import "./breakpoints.scss";
+// @import "./variables.scss";
+
+
+// .title-list {
+//   margin: 40px 100px;
+//   color: $blue;
+
+//   @include sm {
+//     margin: 40px 50px;
+//   }
+// }
+
+// .list {
+//   padding: 0 100px 120px;
+//   display: flex;
+//   justify-content: center;
+//   flex-wrap: wrap;
+//   gap: 25px;
+
+//   @include xl {
+//     padding: 0 20px 120px;
+//   }
+// }
+
+
+
 @import "./breakpoints.scss";
 @import "./variables.scss";
-
 
 .title-list {
   margin: 40px 100px;
@@ -20,5 +46,18 @@
 
   @include xl {
     padding: 0 20px 120px;
+  }
+}
+
+.trip-item {
+  background-color: #f9f9f9; /* Background for trip item */
+  border: 1px solid #ddd; /* Border for the trip item */
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px; /* Padding for content */
+  cursor: pointer; /* Cursor change to pointer on hover */
+  transition: box-shadow 0.2s ease; /* Smooth transition effect */
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
   }
 }
