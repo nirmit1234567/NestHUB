@@ -195,7 +195,7 @@ router.get("/:userId/reservations", async (req, res) => {
     const formattedReservations = reservations.map(reservation => ({
       listing: reservation.listingId, // All listing details
       customerDetails: reservation.userDetails, // Extracting userDetails
-      startDate: reservation.startDate,
+      startDate: reservation.startDate ,
       endDate: reservation.endDate,
       totalPrice: reservation.totalPrice,
       paymentStatus: reservation.paymentMethodId ? true : false, // Assuming paymentMethodId indicates payment
@@ -207,11 +207,6 @@ router.get("/:userId/reservations", async (req, res) => {
     res.status(500).json({ message: "Cannot find reservations!", error: err.message });
   }
 });
-
-
-
-
-
 
 
 
@@ -273,6 +268,30 @@ router.put("/:userId/profile", async (req, res) => {
   }
 });
 
+// // Delete user by ID (DELETE /users/:userId/profile)
+// router.delete("/:userId/profile", async (req, res) => {
+//   const { userId } = req.params;
+
+//   if (!mongoose.isValidObjectId(userId)) {
+//     return res.status(400).json({ message: "Invalid user ID format" });
+//   }
+
+//   try {
+//     const deletedUser = await User.findByIdAndDelete(userId);
+//     if (!deletedUser) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     res.status(204).send(); 
+//   } catch (err) {
+//     console.error("Error deleting user:", err);
+//     res.status(500).json({ message: "Error deleting user profile", error: err.message });
+//   }
+// });
+
+
+
+
+
 // Delete user by ID (DELETE /users/:userId/profile)
 router.delete("/:userId/profile", async (req, res) => {
   const { userId } = req.params;
@@ -286,11 +305,27 @@ router.delete("/:userId/profile", async (req, res) => {
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.status(204).send(); 
+
+    // Destroy session if it exists
+    if (req.session) {
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({
+            message: "Error logging out after deleting user",
+            error: err.message,
+          });
+        }
+        res.status(204).send(); // Success, no content
+      });
+    } else {
+      res.status(204).send(); // Success, no session to destroy
+    }
   } catch (err) {
     console.error("Error deleting user:", err);
     res.status(500).json({ message: "Error deleting user profile", error: err.message });
   }
 });
+
+
 
 module.exports = router;
